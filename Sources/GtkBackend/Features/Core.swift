@@ -78,7 +78,10 @@ extension GtkBackend: BackendFeatures.Core {
                 return 0
             },
             Unmanaged<ThreadActionContext>.passRetained(action).toOpaque(),
-            { _ in }
+            { context in
+                // Balance the retain above once GLib removes the source.
+                Unmanaged<ThreadActionContext>.fromOpaque(context!).release()
+            }
         )
     }
 
@@ -106,7 +109,10 @@ extension GtkBackend: BackendFeatures.Core {
                 return 0
             },
             Unmanaged<ThreadActionContext>.passRetained(action).toOpaque(),
-            { _ in }
+            { context in
+                // Balance the retain above once GLib removes the source.
+                Unmanaged<ThreadActionContext>.fromOpaque(context!).release()
+            }
         )
     }
 
